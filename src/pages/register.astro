@@ -1,0 +1,64 @@
+---
+import Base from "@layouts/Base.astro";
+---
+
+<Base
+  title="Register and Login"
+  meta_title="Register and Login Page"
+  description="Simple registration and login forms using Astro."
+>
+  <section class="section">
+    <div class="container">
+      <div class="row md:gx-4">
+        <div class="sm:col-12">
+          <form id="registerForm" onsubmit="return register()">
+            <h2>Register</h2>
+            <input type="text" id="regUsername" placeholder="Username" required>
+            <input type="password" id="regPassword" placeholder="Password" required>
+            <button type="submit">Register</button>
+          </form>
+
+          <form id="loginForm" onsubmit="return login()">
+            <h2>Login</h2>
+            <input type="text" id="loginUsername" placeholder="Username" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function register() {
+      const username = document.getElementById('regUsername').value;
+      const password = document.getElementById('regPassword').value;
+
+      // Save credentials to local storage
+      localStorage.setItem('username', username);
+      localStorage.setItem('password', password);
+
+      alert('Registration successful!');
+      document.getElementById('registerForm').reset();
+      return false;
+    }
+
+    function login() {
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+
+      // Retrieve credentials from local storage
+      const storedUsername = localStorage.getItem('username');
+      const storedPassword = localStorage.getItem('password');
+
+      if (username === storedUsername && password === storedPassword) {
+        alert('Login successful!');
+      } else {
+        alert('Invalid credentials. Please try again.');
+      }
+
+      document.getElementById('loginForm').reset();
+      return false;
+    }
+  </script>
+</Base>

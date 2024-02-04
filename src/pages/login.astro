@@ -1,0 +1,61 @@
+---
+import Base from "@layouts/Base.astro";
+---
+
+<Base
+  title="Login"
+  meta_title="Login Page"
+  description="Please login to access the content."
+>
+  <section class="section">
+    <div class="container">
+      <div class="row md:gx-4">
+        <div class="sm:col-12">
+          <h2>Login</h2>
+          <form id="loginForm" onsubmit="return login()">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+          </form>
+
+          <p>Don't have an account? <a href="/register">Register here</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.message);
+          // Redirect to another page or perform additional actions.
+        } else {
+          const data = await response.json();
+          alert(data.error);
+        }
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred. Please try again.');
+      }
+
+      return false; // Prevent the form from submitting traditionally.
+    }
+  </script>
+</Base>
